@@ -1,21 +1,15 @@
 // 实现一个LazyMan，可以按照以下方式调用:
 
-/*  LazyMan(“Hank”)
+/*  LazyMan('Hank')
  *	输出:
  *	Hi! This is Hank!
  */
- // function LazyMan(name) {
- // 	console.log('Hi! This is '+name+'!');
- // }   										LazyMan('Hank')
 
 
 
 
 
-
-
-
-/*	LazyMan(“Hank”).sleep(10).eat(“dinner”)输出
+/*	LazyMan('Hank').sleep(10).eat('dinner')输出
  * 	输出:
  *	Hi! This is Hank!
  *	等待10秒..
@@ -55,31 +49,44 @@
 
 //LazyMan('Hank').sleep(10).eat('dinner')
 function LazyMan(name){
-	if(this instanceof LazyMan){
-		return new LazyMan();
+	if(!(this instanceof LazyMan)){
+		return new LazyMan(name);
 	}
 	console.log('Hi! This is !'+name);
+	var self=this;
+	self.arr=[];
 	setTimeout(function(){
-		next();
+		self.next();
 	},0)
 }
 
 LazyMan.prototype = {
 	next: function(){
-
+		console.log(this.arr);
+		var fn=this.arr.shirt();
+		fn && fn();  // &&找false，找到false就返回
 	},
 	sleep: function(t){
-		setTimeout(function(){
-			console.log('等待'+t+秒);
-		},t*1000)
+		fn=(function(){
+			return function(){
+				setTimeout(function(){
+					console.log('等待'+t+秒);
+					self.next();
+				},t*1000)
+			}
+		})()
+		this.arr.push(fn);
+		return this;
 	},
 	eat: function(food){
 		fn=(function(){
 			return function(){
 				console.log('Eat ~'+food);
+				self.next();
 			}
 		})();
-		
+		this.arr.push(fn);
+		return this;
 	}
 };
 
@@ -89,22 +96,16 @@ LazyMan.prototype = {
 
 
  
-/*	LazyMan(“Hank”).eat(“dinner”).eat(“supper”)
+/*	LazyMan('Hank').eat('dinner').eat('supper')
  * 输出:
  * Hi This is Hank!
  * Eat dinner~
  * Eat supper~
  */
- // function LazyMan() {
-	// console.log('Hi! This is Hank!');
- // }
- // function eat() {
-	// console.log('Eat dinner~');
- // }
 
 
 
-/* LazyMan(“Hank”).sleepFirst(5).eat(“supper”)
+/* LazyMan('Hank').sleepFirst(5).eat('supper')
  * 等待5秒，输出
  * Wake up after 5
  * Hi This is Hank!
