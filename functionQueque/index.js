@@ -47,22 +47,20 @@
 // next();
 
 
-//LazyMan('Hank').sleep(10).eat('dinner')
+//LazyMan('Hank').sleep(1).eat('dinner')
 function LazyMan(name){
 	if(!(this instanceof LazyMan)){
 		return new LazyMan(name);
 	}
 	console.log('Hi! This is !'+name);
-	var self=this;
-	self.arr=[];
+	this.arr=[];
 	setTimeout(function(){
-		self.next();
-	},0)
+		this.next();
+	}.bind(this),0)
 }
 
 LazyMan.prototype = {
 	next: function(){
-		console.log(this.arr);
 		var fn=this.arr.shift();
 		fn && fn();  // &&找false，找到false就返回
 	},
@@ -77,18 +75,18 @@ LazyMan.prototype = {
 			}
 		})()
 		this.arr.push(fn);
-		return this;
+		return this; 	//实现链式调用
 	},
 	eat: function(food){
 		var self=this;
 		fn=(function(){
-			return function(){
+			return function(this){
 				console.log('Eat ~'+food);
-				self.next();
+				this.next();
 			}
 		})();
 		this.arr.push(fn);
-		return this;
+		return this;	//实现链式调用
 	}
 };
 
