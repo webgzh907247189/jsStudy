@@ -63,14 +63,15 @@ function LazyMan(name){
 LazyMan.prototype = {
 	next: function(){
 		console.log(this.arr);
-		var fn=this.arr.shirt();
+		var fn=this.arr.shift();
 		fn && fn();  // &&找false，找到false就返回
 	},
 	sleep: function(t){
+		var self=this;
 		fn=(function(){
 			return function(){
 				setTimeout(function(){
-					console.log('等待'+t+秒);
+					console.log('等待'+t+'秒');
 					self.next();
 				},t*1000)
 			}
@@ -79,6 +80,7 @@ LazyMan.prototype = {
 		return this;
 	},
 	eat: function(food){
+		var self=this;
 		fn=(function(){
 			return function(){
 				console.log('Eat ~'+food);
