@@ -47,6 +47,8 @@
 // next();
 
 
+
+
 //LazyMan('Hank').sleep(1).eat('dinner')
 function LazyMan(name){
 	if(!(this instanceof LazyMan)){
@@ -65,26 +67,24 @@ LazyMan.prototype = {
 		fn && fn();  // &&找false，找到false就返回
 	},
 	sleep: function(t){
-		var self=this;
 		fn=(function(){
 			return function(){
 				setTimeout(function(){
 					console.log('等待'+t+'秒');
-					self.next();
-				},t*1000)
+					this.next();
+				}.bind(this),t*1000)	//绑定this
 			}
-		})()
+		})().bind(this);	//绑定this
 		this.arr.push(fn);
 		return this; 	//实现链式调用
 	},
 	eat: function(food){
-		var self=this;
 		fn=(function(){
-			return function(this){
+			return function(){
 				console.log('Eat ~'+food);
 				this.next();
 			}
-		})();
+		})().bind(this);	//绑定this
 		this.arr.push(fn);
 		return this;	//实现链式调用
 	}
