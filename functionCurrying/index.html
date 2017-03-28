@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MobileDemo</title>
+</head>
+<body>
+
+<div id="root">111this(多种情况),valueOf,toString,~,fill</div>
+<script>
+/*
+ * 函数柯里化(1.参数复用  2.提前返回  3.延迟计算/运行)
+ *
+ */
+var currying = function(fn) {
+    // fn 指官员消化老婆的手段
+    var args = [].slice.call(arguments,1);//第一个参数不要,从第二个参数开始算   console.log(`${args},["合法老婆"]`);
+    // args 指的是那个合法老婆
+    return function() {
+        // 已经有的老婆和新搞定的老婆们合成一体，方便控制
+        var newArgs = args.concat([].slice.call(arguments));
+        // 这些老婆们用 fn 这个手段消化利用，完成韦小宝前辈的壮举并返回
+        console.log(`${newArgs},newArgs,${newArgs.push("ge")}`);
+        console.log(newArgs);
+        return fn.apply(null, newArgs);
+    };
+};
+
+// 获得合法老婆
+var getWife = currying(function() {
+    console.log(`${JSON.stringify(arguments)}`);
+    console.log(`${[].slice.call(arguments,1)}`);
+    var allWife = [].slice.call(arguments);
+    // allwife 就是所有的老婆的，包括暗渡陈仓进来的老婆
+    console.log(allWife.join(";"));
+}, "合法老婆");
+
+console.log(`${getWife},"匿名函数"`);
+// 获得其他6个老婆
+getWife("大老婆","小老婆","俏老婆","刁蛮老婆","乖老婆","送上门老婆");
+//getWife("超越韦小宝的老婆");
+
+//合法老婆;大老婆;小老婆;俏老婆;刁蛮老婆;乖老婆;送上门老婆
+//合法老婆;超越韦小宝的老婆
+</script>
+</body>
+</html>
