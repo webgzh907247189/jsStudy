@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MobileDemo</title>
+</head>
+<body>
+
+<div id="root">111this(多种情况),valueOf,toString,~,fill</div>
+<script>
+/*
+ * fill的使用
+ * 快速mock数据的功能(性能测试	url:https://jsperf.com/constarray/4)
+ */
+ var arr = Array(6).fill(1).map((val,index)=>{return {val:index}});
+ console.log(`${JSON.stringify(arr)},arr`);
+ //[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr
+
+
+ var arr1 = Array(6).join(' ').split('').map((val,index)=>{return {val:index}});  //性能:第二种次之
+ console.log(`${JSON.stringify(arr1)},arr1`);
+ //[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4}],arr1
+
+
+ var arr2 = Array.from({length:6}).map((val,index)=>{return {val:index}});  //性能:最差(三种比较)
+ console.log(`${JSON.stringify(arr2)},arr2`);
+ //[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr2
+
+
+ var arr3 = [];                    //性能:性能最好
+ for(var i = 0; i <= 5; i++) {
+     arr3.push({val:i});
+ }
+ console.log(`${JSON.stringify(arr3)},arr3`);
+ //[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr3
+
+
+ var arr4 = Array.apply(null,{length:6}).map((val, i) => {return {val:i}});
+ console.log(`${JSON.stringify(arr4)},arr4`);
+ //[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr4
+
+
+ var arr5 =Array.from(new Array(6), (v,i) => { return {val: i}});
+ console.log(`${JSON.stringify(arr5)},arr5`);
+ ////[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr5
+
+
+function* angry(i) {       //(Generator)
+  yield {val: i};
+  if (i < 5) { yield* angry(i + 1); }
+};
+console.log(`${JSON.stringify(Array.from(angry(0)))},arr6`);
+//[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr6
+
+var arr7=[];
+(function wallace (i) { return (i < 0) ? [] : wallace(i - 1).concat({val: i}); })(6);//递归
+console.log(`${JSON.stringify(arr7)},arr7`);
+//[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr7
+
+
+(function mistake (i, acc) { return (i < 6) ? mistake(i + 1, acc.concat({val: i})) : acc; })(0, []);////尾递归
+
+
+</script>
+</body>
+</html>
