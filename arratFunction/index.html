@@ -52,13 +52,15 @@ function* angry(i) {       //(Generator)
 console.log(`${JSON.stringify(Array.from(angry(0)))},arr6`);
 //[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr6
 
-var arr7=[];
-(function wallace (i) { return (i < 0) ? [] : wallace(i - 1).concat({val: i}); })(6);//递归
+
+var arr7 = (function wallace (i) { return (i < 0) ? [] : wallace(i - 1).concat({val: i}); })(5);//递归
 console.log(`${JSON.stringify(arr7)},arr7`);
 //[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr7
 
 
-(function mistake (i, acc) { return (i < 6) ? mistake(i + 1, acc.concat({val: i})) : acc; })(0, []);////尾递归
+var arr8 = (function mistake (i, acc) { return (i < 6) ? mistake(i + 1, acc.concat({val: i})) : acc; })(0, []);////尾递归
+console.log(`${JSON.stringify(arr8)},arr8`);
+//[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr8
 
 
 </script>
