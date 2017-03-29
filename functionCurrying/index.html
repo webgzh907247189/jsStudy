@@ -14,7 +14,7 @@
  */
 var currying = function(fn) {
     // fn 指官员消化老婆的手段
-    var args = [].slice.call(arguments,1);//第一个参数不要,从第二个参数开始算   console.log(`${args},["合法老婆"]`);
+    var args = [].slice.call(arguments,1);//第一个参数不要,从第二个参数开始算    console.log(`${args},["合法老婆"]`);
     // args 指的是那个合法老婆
     return function() {
         // 已经有的老婆和新搞定的老婆们合成一体，方便控制
@@ -28,9 +28,9 @@ var currying = function(fn) {
 
 // 获得合法老婆
 var getWife = currying(function() {
-    console.log(`${JSON.stringify(arguments)}`);
-    console.log(`${[].slice.call(arguments,1)}`);
-    var allWife = [].slice.call(arguments);
+    console.log(`${JSON.stringify(arguments)}`);  //？？？变成了obj
+    console.log(`${[].slice.call(arguments,1)}`);  //第一个参数不要,从第二个参数开始算起
+    var allWife = [].slice.call(arguments); 
     // allwife 就是所有的老婆的，包括暗渡陈仓进来的老婆
     console.log(allWife.join(";"));
 }, "合法老婆");
@@ -38,7 +38,7 @@ var getWife = currying(function() {
 console.log(`${getWife},"匿名函数"`);
 // 获得其他6个老婆
 getWife("大老婆","小老婆","俏老婆","刁蛮老婆","乖老婆","送上门老婆");
-//getWife("超越韦小宝的老婆");
+getWife("超越韦小宝的老婆");
 
 //合法老婆;大老婆;小老婆;俏老婆;刁蛮老婆;乖老婆;送上门老婆
 //合法老婆;超越韦小宝的老婆
