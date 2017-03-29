@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MobileDemo</title>
+</head>
+<body>
+
+<div id="root">111this(多种情况),valueOf,toString,~,fill</div>
+<script>
+/*
+ * ~的使用(在indexOf()中)
+ * 
+ */
+ var str='今天早上吃的什么?'; //使用indexOf()的话,找到的话(返回0,1,2,3,4,5),找不到的话(返回-1); ->-1,(|)0,1,2,3,4,5
+                              //~ 转变规则:<-(x+1)>; 相应的转变为(-1,-2,-3,-4,-5,-6      0) 
+                              //因为找不到(返回-1,  -1对应的<~>为0),找到(返回0,1,2,3,4,5  对应的<~>为-1,-2,-3,-4)
+                              //直接使用<~>即可                 
+ if(~str.indexOf('吃阿萨德撒')){
+    console.log(`true   在str这个字符串中,找到了吃这个字`);
+ }else{
+    console.log(`false  没有找到相应的字`);
+ }
+</script>
+</body>
+</html>
