@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MobileDemo</title>
+</head>
+<body>
+
+<div id="root">111this(多种情况),valueOf,toString,~,fill</div>
+<script>
+/*
+ * toString,valueOf的使用
+ * 自定义toString valueOf(url:http://web.jobbole.com/90654/)
+ */
+
+
+add(1)(2) // 3
+add(1, 2, 3)(10) // 16
+add(1)(2)(3)(4)(5) // 15
+//高阶函数(Higher-order function)：高阶函数的意思是它接收另一个函数作为参数
+
+function add(){
+	var args = [].slice.call(arguments); //var args = Array.from(arguments);
+	fn = function(){
+		var argsTwo = args.concat([].slice.call(arguments));
+		return fn.apply(null,argsTwo);
+	}
+	fn.valueOf = function(){
+		argsTwo.reduce((val1,val2)=>{
+			return (val1+val2);
+		},0)
+	}
+	return fn;
+}
+</script>
+</body>
+</html>
