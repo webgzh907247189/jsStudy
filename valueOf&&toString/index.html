@@ -21,12 +21,11 @@ add(1)(2)(3)(4)(5) // 15
 
 function add(){
 	var args = [].slice.call(arguments); //var args = Array.from(arguments);
-	fn = function(){
-		var argsTwo = args.concat([].slice.call(arguments));
-		return fn.apply(null,argsTwo);
+	var fn = function(){
+		return add.apply(null,args.concat([].slice.call(arguments)));
 	}
 	fn.valueOf = function(){
-		argsTwo.reduce((val1,val2)=>{
+		return args.reduce((val1,val2)=>{
 			return (val1+val2);
 		},0)
 	}
