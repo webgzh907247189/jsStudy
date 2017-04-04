@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MobileDemo</title>
+</head>
+<body>
+
+<div id="root">111</div>
+<script>
+/*
+ *   http://web.jobbole.com/90572/           http://web.jobbole.com/85198/
+ *   this (在严格版中的默认的this不再是window，而是undefined)
+ */
+
+//两个 this 都是由箭头函数的直接外层函数(方法)决定的，而方法函数中的 this
+//是由其调用方式决定的。下例的调用方式都是方法调用，所以 this 都指向方法调用的对象，即 obj。
+const obj = {
+    test() {
+        const arrow = () => {
+            // 这里的 this 是 test() 中的 this，
+            // 由 test() 的调用方式决定
+            console.log(this === obj);
+        };
+        arrow();
+    },
+    getArrow() {
+        return () => {
+            // 这里的 this 是 getArrow() 中的 this，
+            // 由 getArrow() 的调用方式决定
+            console.log(this === obj);
+        };
+    }
+};
+obj.test();     // true
+const arrow = obj.getArrow();
+arrow();        // true
+
+
+var o = {
+    a:10,
+    b:{
+        a:12,
+        fn:function(){
+            console.log(this.a); //12
+        }
+    }
+}
+o.b.fn(); //12
+
+
+var o = {
+    a:10,
+    b:{
+        a:12,
+        fn:function(){
+            console.log(this.a); //undefined
+            console.log(this); //window
+        }
+    }
+}
+var j = o.b.fn;
+j();
+
+
+
+
+
+/*
+ *  当this碰到return时,在构造函数中(在严格版中的默认的this不再是window，而是undefined)
+ */
+
+//如果返回值是一个对象，那么this指向的就是那个返回的对象
+//如果返回值不是一个对象那么this还是指向函数的实例。
+
+function fn(){  
+    this.user = '追梦子';  
+    return {};  
+}
+var a = new fn;  
+console.log(a.user); //undefined
+
+
+
+function fn(){  
+    this.user = '追梦子';  
+    return function(){};
+}
+var a = new fn;  
+console.log(a.user); //undefined
+
+
+
+function fn(){  
+    this.user = '追梦子';  
+    return 1;
+}
+var a = new fn;  
+console.log(a.user); //追梦子
+
+
+function fn(){  
+    this.user = '追梦子';  
+    return undefined;
+}
+var a = new fn;  
+console.log(a.user); //追梦子
+
+
+//还有一点就是虽然null也是对象，但是在这里this还是指向那个函数的实例，因为null比较特殊
+function fn(){  
+    this.user = '追梦子';  
+    return null;
+}
+var a = new fn;  
+console.log(a.user); //追梦子
+
+
+
+
+
+
+
+
+
+
+//为什么this会指向a？首先new关键字会创建一个空的对象，然后会自动调用一个函数apply方法，
+//将this指向这个空对象，这样的话函数内部的this就会被这个空的对象替代。
+
+function fn(){
+    this.num = 1;
+}
+var a = new fn();
+console.log(a.num); //1
+
+
+</script>
+<script type="text/javascript" src="index.js"></script>
+</body>
+</html>
