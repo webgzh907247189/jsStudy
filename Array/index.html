@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MobileDemo</title>
+</head>
+<body>
+
+<div id="root">111this(多种情况),valueOf,toString,~,fill</div>
+<script type="text/javascript">
+	// let arr1 = [{id:1,status:'aa'},{id:2,status:'bb'},{id:3,status:'cc'}];			//statusArr
+	// let arr2 = [{id:1,differType:'aa1'},{id:2,differType:'bb1'},{id:4,differType:'ff1'},{id:5,differType:'gg1'}];
+	// arr2.reduce((result,item)=>{
+	// 	// console.log(item);
+	// 	// return;
+	// 	// for(let i=0;i<result.length;i++){
+	// 	// 	console.log(result[i]);
+	// 	// }
+	// 	// return;
+	//   	let matchItem=result.find(v=>{
+	//   		let bool = v.id==item.id 		//把符合这一项的解析出来(v)
+	//   		//console.log(bool);
+	//   		return bool;
+	//   	});
+	//   	//console.log(matchItem);		// 找出符合条件的元素
+	//   	if(matchItem){
+	// 		matchItem.statusDifferType=item.differType
+	// 	}else{
+	// 		result.push(item)
+	// 	}
+	// 	return result;
+	// },arr1)	
+	// //console.log(arr1);
+</script>
+
+<script type="text/javascript">
+	let arr3 = [{id:1,status:'aa'},{id:2,status:'bb'},{id:3,status:'cc'}];			//statusArr
+	let arr4 = [{id:1,differType:'aa1'},{id:2,differType:'bb1'},{id:4,differType:'ff1'},{id:5,differType:'gg1'}];
+	let newArr = [];
+	for(let i=0;i<arr3.length;i++){
+		for(let k=0;k<arr4.length;k++){
+			if(arr3[i].id==arr4[k].id){
+				arr3[i].differType=arr4[k].differType;
+				newArr.push(arr3[i]);	
+			}
+		}
+	}
+	//console.log(newArr);
+
+
+	let newBrr=[];
+	for(let j=0;j<arr3.length;j++){
+		let brrBool=false;
+		for(let m=0;m<newArr.length;m++){
+			if(newArr[m].id==arr3[j].id){
+				brrBool = true;
+				break;	//跳出循环(里面的for不在进行)
+			}
+		}
+		if(!brrBool){
+			newBrr.push(arr3[j]);
+		}
+	}
+	//console.log(newBrr);
+
+
+	let newCrr = [];
+	for(let j=0;j<arr4.length;j++){
+		let crrBool=false;
+		//每次大循环之前重置crrBool,下面的for会改变其的值，故需在大循环内重置属性
+		for(let m=0;m<newArr.length;m++){
+			if(newArr[m].id==arr4[j].id){
+				//console.log(newArr[m].id);
+				//console.log(arr4[j].id);
+				crrBool = true;
+				break;	           
+			}
+		}
+		if(!crrBool){
+			newCrr.push(arr4[j]);
+		}
+	}
+	//console.log(newCrr);	
+
+
+	newArr = newArr.concat(newBrr).concat(newCrr);
+	console.log(newArr);
+</script>	
+<script type="text/javascript" src="index.js"></script>
+</body>
+</html>

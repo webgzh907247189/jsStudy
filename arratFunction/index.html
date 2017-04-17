@@ -7,6 +7,7 @@
 <body>
 
 <div id="root">111this(多种情况),valueOf,toString,~,fill</div>
+
 <script>
 /*
  * fill的使用
@@ -61,8 +62,72 @@ console.log(`${JSON.stringify(arr7)},arr7`);
 var arr8 = (function mistake (i, acc) { return (i < 6) ? mistake(i + 1, acc.concat({val: i})) : acc; })(0, []);////尾递归
 console.log(`${JSON.stringify(arr8)},arr8`);
 //[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr8
+</script>
 
 
+<script type="text/javascript">
+	//删除数组的元素
+	var remove = function(from,to) {
+	  var rest = arr.slice((to || from) + 1 || arr.length);
+	  arr.length = from < 0 ? arr.length + from : from;
+	  return arr.push.apply(arr, rest);
+	};
+
+	// //??????????????????????
+	// // 移除数组中的第二项
+	// array.remove(1);
+	// // 移除数组中的倒数第二项
+	// array.remove(-2);
+	// // 移除数组中的第二项和第三项（从第二项开始，删除2个元素）
+	// array.remove(1,2);
+	// // 移除数组中的最后一项和倒数第二项（数组中的最后两项）
+	// array.remove(-2,-1);
+	// //?????????????????????????
+</script>
+
+
+<script type="text/javascript">
+// let statusArr = [{id:1,status:'aa'},{id:2,status:'bb'},{id:3,status:'cc'}];			//statusArr
+// let sysModifiedArr = [{localId:1,differType:'dd'},{localId:2,differType:'ee'},{localId:4,differType:'ff'},{localId:5,differType:'gg'}];	//sysModifiedArr
+// let newstatusArr = [];
+// for(let j=0;j<statusArr.length;j++){
+// 	newstatusArr.push(statusArr[j].id);
+// }
+
+// let newsysModifiedArr = [];
+// for(let f=0;f<sysModifiedArr.length;f++){
+// 	newsysModifiedArr.push(sysModifiedArr[f].localId);
+// }
+
+// let mergeStatusArr=[];
+// if(statusArr.length!=0 && sysModifiedArr.length!=0){
+// 	for(let i=0;i<statusArr.length;i++){
+// 		for(let k=0;k<sysModifiedArr.length;k++){
+// 			if(statusArr[i].id==sysModifiedArr[k].localId){
+// 				//合并元素(公共的)
+// 				mergeStatusArr.push({id:statusArr[i].id,status:statusArr[i].status,differType:sysModifiedArr[k].differType});
+// 			}
+// 		}
+// 	}
+// 	for(let i=0;i<mergeStatusArr.length;i++){
+// 		remove(statusArr,newstatusArr.indexOf(mergeStatusArr[i].id));
+// 		//delete statusArr[newstatusArr.indexOf(mergeStatusArr[i].id)];
+// 	}
+// 	console.log(statusArr);
+
+
+// 	for(let i=0;i<mergeStatusArr.length;i++){
+// 		delete sysModifiedArr[newsysModifiedArr.indexOf(mergeStatusArr[i].id)];
+// 	}
+// 	mergeStatusArr=mergeStatusArr.concat(statusArr).concat(sysModifiedArr);
+// }else if(statusArr.length==0 || sysModifiedArr.length==0){
+// 	//statusArr承接了数据
+// 	mergeStatusArr = statusArr.length == 0 ? sysModifiedArr : statusArr;
+// }
+
+// for (var i=0; i<mergeStatusArr.length;i++) {
+// 	console.log(mergeStatusArr[i]);
+// }
 </script>
 </body>
 </html>

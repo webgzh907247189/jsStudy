@@ -1,4 +1,6 @@
 // 实现一个LazyMan，可以按照以下方式调用:
+//先同步,在异步,最后回调
+
 
 /*  LazyMan('Hank')
  *	输出:
@@ -49,13 +51,13 @@
 
 
 
-//LazyMan('Hank').sleep(1).eat('dinner')
+//LazyMan('Hank').sleep(1).eat('dinner')//尾部使用函数
 function LazyMan(name){
 	if(!(this instanceof LazyMan)){
 		return new LazyMan(name);
 	}
-	console.log('Hi! This is !'+name);
 	this.arr=[];
+	console.log('Hi! This is !'+name);
 	setTimeout(function(){
 		this.next();
 	}.bind(this),0)
@@ -90,8 +92,7 @@ LazyMan.prototype = {
 	}
 };
 
-
-
+LazyMan('Hank').sleep(10).eat('dinner')
 
 
 
