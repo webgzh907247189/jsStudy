@@ -1,6 +1,11 @@
 //http://blog.csdn.net/w20101114/article/details/16858403  跳出循环
 //http://www.cnblogs.com/lovesong/p/4908871.html
 
+//continue 跳出本次循环，进行下一次的循环(i++)
+//break 跳出循环(不在循环,执行下面的代码)
+
+
+
 
 out://命名外圈语句
 for (var i=0;i<4;i++) {

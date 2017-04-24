@@ -173,3 +173,5 @@ arr1.reduce((result,item)=>{
 },arr2);
 console.log(arr2);
 //[{id:1,differType:'dd',status:'aa'},{id:2,differType:'ee',status:'bb'},{id:4,differType:'ff'},{id:5,differType:'gg'},{id:3,status:'cc'}];
+
+
