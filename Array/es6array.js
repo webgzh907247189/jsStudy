@@ -163,7 +163,7 @@ for(var item in demoArrObj){
 //回调函数中有2个参数，分别表示值和索引，这一点与jQuery中的$.each相反
 //forEach无法遍历对象              forEach无法在IE中使用，firefox和chrome实现了该方法
 //forEach无法使用break，continue跳出循环，使用return时，效果和在for循环中使用continue一致
-//最重要的一点，可以添加第二参数，为一个数组，而且回调函数中的this会指向这个数组。而如果没有第二参数，则this会指向window。
+//最重要的一点，可以添加第二参数，（为一个数组<这个不对，见下面的案列>)，而且回调函数中的this会指向这个数组。而如果没有第二参数，则this会指向window。
 let nameArr=['Javascript', 'Gulp', 'CSS3', 'Grunt', 'jQuery', 'angular'];
 nameArr.forEach(function(val, index) {
     if (val == 'CSS3') {
@@ -188,11 +188,79 @@ var newArr = [];
 goHome.forEach(function(val, index) {
     this.push(val); // 这里的this指向newArr
 }, newArr);
-console.log(goHome);
+console.log(newArr);
 //["Javascript", "Gulp", "CSS3", "Grunt", "jQuery", "angular"]
 
 
 
+
+
+//this指向database。所以通过其访问其下面的方法
+var database = {
+    users:['上学','下班','放学'],
+    eat:function(user){
+      if(this.test(user)){
+        console.log(`包含了"学"字，${user}`);
+      }else{
+        console.log(`不包含"学"字，${user}`);
+      }
+    },
+    test:function(item){
+      var a = /学/.test(item);
+      return a;
+    }
+};
+database.users.forEach(database.eat,database);
+// 包含了"学"字，上学
+// 不包含"学"字，下班
+// 包含了"学"字，放学
+
+
+
+var divs = document.getElementsByTagName('div');
+Array.prototype.forEach.call(divs,function(item){
+  console.log(item);
+  return item;
+});
+
+var uls = document.getElementsByTagName('ul');
+//以下三种方法都是将伪数组转化为真正的数组
+uls = Array.from(uls);
+//uls = Array.prototype.slice.call(uls);
+//uls = [].slice.call(uls); 
+console.log(Array.isArray(uls));
+uls.forEach((item)=>{
+  console.log(item);
+  return item;
+});
+
+
+
+//    http://www.jianshu.com/p/bc4f25f9e087?a=1&b=2&c=3
+var arr = window.location.search.substr(1).split('&');
+arr.reduce((res,item)=>{
+  var brr = item.split('=');
+  res[brr[0]] = brr[1];
+  return res;
+},{})
+//Object {a: "1", b: "2", c: "3"}
+
+
+
+
+//substr()   第一个参数代表开始位置,第二个参数代表截取的长度
+//var stmp = "rcinn.cn"; stmp.substr(1,3)  //cin
+
+//substring()  第一个参数代表开始位置,第二个参数代表结束位置的下一个位置;(不包括结束位置)
+//若参数值为负数,则将该值转为0;两个参数中,取较小值作为开始位置,截取出来的字符串的长度为较大值与较小值之间的差.
+//var stmp = "rcinn.cn"; stmp.substring(1,3)  //ci  
+//var stmp = "rcinn.cn"; stmp.substring(1,-3)  //r 
+
+
+//slice()   第一个参数代表开始位置,第二个参数代表结束位置的下一个位置,
+//截取出来的字符串的长度为第二个参数与第一个参数之间的差;若参数值为负数,则将该值加上字符串长度后转为正值;若第一个参数等于大于第二个参数,则返回空字符串.
+//var stmp = "rcinn.cn"; stmp.slice(1,3)  //ci  
+//var stmp = "rcinn.cn"; stmp.slice(1,-3)  //cinn
 
 
 
