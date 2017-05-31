@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>https://github.com/mqyqingfeng/Blog(提升基础知识)  &&  http://www.css88.com/archives/7300</title>
+</head>
+<body>
+
+<div id="root">https://github.com/mqyqingfeng/Blog(提升基础知识)  &&  http://www.css88.com/archives/7300</div>
+<script>  
+/*************         作用域和动态作用域(JS是采用词法作用域,函数的作用域在函数定义的时候就决定了)     ****************/
+//作用域是程序源代码中定义变量的区域。
+//作用域规定了如何查找变量，也就是确定当前执行代码对变量的访问权限。
+//ECMAScript6之前只有全局作用域和函数作用域。
+//JavaScript采用词法作用域(lexical scoping)，也就是静态作用域(函数的作用域在函数定义的时候就决定了)。
+
+
+var value = 1;
+function foo() {
+    console.log(value);
+}
+function bar() {
+    var value = 2;
+    foo();
+}
+bar();
+//当采用静态作用域时，执行foo函数，先从foo函数内部查找是否有局部变量value，如果没有，就根据书写的位置，查找上面一层的代码
+//在这里是全局作用域，也就是value等于1，所以最后会打印1
+
+
+
+
+var scope = "global scope";
+function checkscope(){
+    var scope = "local scope";
+    function f(scope){
+      console.log(scope);
+      return scope;
+    }
+    return f(scope);
+}
+checkscope(); //local scope(函数的作用域在函数定义的时候就决定了)。
+
+
+var scope = "global scope";
+function checkscope(){
+    var scope = "local scope";
+    function f(){
+        return scope;
+    }
+    return f;
+}
+checkscope()(); //local scope(函数的作用域在函数定义的时候就决定了)。
+
+//这个作用域链是在函数定义的时候创建的。嵌套的函数f()定义在这个作用域链里，
+//其中的变量scope一定是局部变量，不管何时何地执行函数f()，这种绑定在执行f()时依然有效。
+
+
+
+
+/*******      作用域      *******/
+function DoSomething(){
+  var a = 2;
+  console.log(a); // 2
+  console.log(window.a); // 1
+}
+var a = 1;
+DoSomething();
+
+
+
+function DoSomething(){
+  var a; // 注意这一行，定义了一个变量 a 但是不赋值。
+  console.log(a); // 'undefined'(DoSomething函数里面的a变量)
+}
+var a = 1;
+DoSomething();
+
+
+function DoSomething(){
+  console.log(a); // 'undefined'(全局作用域下的a变量)
+  var a = 2; // 注意这一行。
+  console.log(a); // 2
+}
+var a = 1;
+DoSomething();
+console.log(a); //1 (按照 作用域来查找)
+
+
+
+
+
+// DoSomething传入了一个 a 参数。
+var b = 2;
+function DoSomething(a,b){
+  var a;
+  console.log(a); // 1
+  console.log(b); // 'undefined'
+}
+DoSomething( 1 );
+
+
+
+//参数的值会被下面的同名变量覆盖
+function DoSomething(a){
+  console.log(a); // 1
+  console.log(arguments[0]); // 1
+  var a = 2;
+  console.log(a); // 2
+  console.log(arguments[0]); // 2
+}
+DoSomething( 1 );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*********执行上下文栈(http://www.jianshu.com/p/a6d37c77e8db)(全局上下文在浏览器窗口关闭后出栈)*************/
+//遇到return能直接终止可执行代码的执行，因此会直接将当前上下文弹出栈(return代表下面的代码不在执行,所以要将当期上下文出栈)
+
+
+//JavaScript引擎并非一行一行地分析和执行程序，而是一段一段地分析执行
+//这就要说到JavaScript的可执行代码(全局代码、函数代码、eval代码)
+
+//JavaScript开始要解释执行代码的时候，最先遇到的就是全局代码，所以初始化的时候首先就会向执行上下文栈压入一个全局执行上下文，让我们用globalContext表示它，并且只有当整个应用程序结束的时候，ECStack才会被清空，所以ECStack最底部永远有个globalContext
+
+//(变量提升)
+var foo = function () {
+  console.log('foo1');
+}
+foo();  // foo1
+
+var foo = function () {
+  console.log('foo2');
+}
+
+foo(); // foo2
+
+
+function foo() {
+  console.log('foo1');
+
+}
+foo();  // foo2
+
+function foo() {
+  console.log('foo2');
+}
+foo(); // foo2
+
+
+//执行上下文总结一些结论
+// 单线程
+// 同步执行，只有栈顶的上下文处于执行中，其他上下文需要等待
+// 全局上下文只有唯一的一个，它在浏览器关闭时出栈
+// 函数的执行上下文的个数没有限制
+// 每次某个函数被调用，就会有个新的执行上下文为其创建，即使是调用的自身函数，也是如此。
+
+
+
+/**********************   变量对象(VO) (函数为一等公民)    ***************************/
+//执行上下文时，首先会处理函数声明，其次会处理变量声明
+//如果变量名称跟已经声明的形参或函数相同，则变量声明不会干扰已经存在的这类属性
+//如果函数声明跟已经存在相同变量名相同，则完全替换这个属性
+//(优先读取函数声明,函数声明 > 变量声明->'重要性',函数声明会覆盖变量声明)
+
+
+function foo(a) {
+  var b = 2;
+  function c() {}
+  var d = function() {};
+  b = 3;
+}
+foo(1)
+//在进入执行上下文后，这时候的AO是:(AO  活动对象)
+AO = {
+    arguments: {
+        0: 1,
+        length: 1
+    },
+    a: 1,
+    b: undefined,
+    c: reference to function c(){},
+    d: undefined
+}
+
+//(代码执行)
+AO = {
+    arguments: {
+        0: 1,
+        length: 1
+    },
+    a: 1,
+    b: 3,
+    c: reference to function c(){},
+    d: reference to FunctionExpression "d"
+}
+
+
+
+
+function foo() {
+    console.log(a);
+    a = 1;
+}
+foo(); //ncaught ReferenceError: a is not defined(报错)
+
+function bar() {
+    a = 1;
+    console.log(a);
+}
+bar(); //1
+
+
+
+console.log(foo); //function foo(){console.log("foo");}
+function foo(){
+    console.log("foo");
+}
+var foo = 1;
+//这是因为在进入执行上下文时，首先会处理函数声明，其次会处理变量声明
+//如果变量名称跟已经声明的形式参数或函数相同，则变量声明不会干扰已经存在的这类属性。
+
+
+
+
+
+</script>
+</body>
+</html>

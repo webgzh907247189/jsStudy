@@ -257,7 +257,7 @@ arr.reduce((res,item)=>{
 //var stmp = "rcinn.cn"; stmp.substring(1,-3)  //r 
 
 
-//slice()   第一个参数代表开始位置,第二个参数代表结束位置的下一个位置,
+//slice() 也适用于数组  第一个参数代表开始位置,第二个参数代表结束位置的下一个位置,
 //截取出来的字符串的长度为第二个参数与第一个参数之间的差;若参数值为负数,则将该值加上字符串长度后转为正值;若第一个参数等于大于第二个参数,则返回空字符串.
 //var stmp = "rcinn.cn"; stmp.slice(1,3)  //ci  
 //var stmp = "rcinn.cn"; stmp.slice(1,-3)  //cinn
@@ -369,3 +369,36 @@ Array.prototype.map.call(str,function(a){
 // pop(尾部删除)
 // unshift(头部添加)
 // shirt(头部删除)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var arr=[{payWay:'银行转账',payType:'赔款支出'},{payWay:'支付宝',payType:'其它'},{payWay:'支付宝',payType:'公估费'}];
+arr.forEach((v)=>{
+  v.name='111';
+  v.payWay={
+        '银行转账':'01',
+        '支付宝':'02',
+    }[v.payWay]
+    v.payType={
+        '赔款支出':'01',
+        '律师费':'02',
+        '公估费':'03',
+        '查勘费':'04',
+        '其它':'05',
+    }[v.payType]
+});
+console.log(arr);
+//[{name:'111',payType:"01",payWay:"01"},{name:'111',payType:"05",payWay:"02"},{name:'111',payType:"03",payWay:"02"}]

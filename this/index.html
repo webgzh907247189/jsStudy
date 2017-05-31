@@ -66,6 +66,47 @@ j();
 
 
 
+
+
+
+
+
+
+//http://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&mid=2651552103&idx=1&sn=17579f610a29265fecd8ea2714b5f94f&chksm=8025aea6b75227b0260b69305dcf67fee1fe00677923fea1068df8139aaf5bd1064a242f77ef&mpshare=1&scene=1&srcid=04272HLmad9vT4mo8QUXRGde#rd
+//zhuanlan.zhihu.com/p/23804247
+function fn (){ console.log(this.length) }
+function fn2 (){ console.log('11111111111') }
+var arr = [fn, fn2]
+arr[0]() // 这里面的 this 指向arr
+//理解为arr.0.call(arr)   this指向arr
+
+
+
+var obj = {
+  foo: function(){
+    console.log(this)
+  }
+} 
+var bar = obj.foo
+obj.foo() //(   Object{}   ) 转换为 obj.foo.call(obj)，this 就是 obj
+
+bar()//(     window   ) 转换为 bar.call()
+// 由于没有传 context
+// 所以 this 就是 undefined
+// 最后浏览器给你一个默认的 this —— window 对象
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
  *  当this碰到return时,在构造函数中(在严格版中的默认的this不再是window，而是undefined)
  */
