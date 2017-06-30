@@ -31,6 +31,28 @@
 	// 	return result;
 	// },arr1)	
 	// //console.log(arr1);
+
+
+
+
+
+	var arr1 = [{id:1,status:'aa'},{id:2,status:'bb'},{id:3,status:'cc'}];			//statusArr
+	var arr2 = [{id:1,differType:'aa1'},{id:2,differType:'bb1'},{id:4,differType:'ff1'},{id:5,differType:'gg1'}];
+	arr2.reduce((result,item)=>{
+	  	var matchItem=result.find(v=>{
+	  		var bool = v.id==item.id 		//把符合这一项的解析出来(v)
+	  		return bool;
+	  	});
+	  	console.log(matchItem);		// 找出符合条件的元素
+	  	if(matchItem){
+			matchItem.statusDifferType=item.differType
+		}else{
+			result.push(item)
+		}
+		return result;
+	},arr1)	
+	console.log(arr1);
+	//[{id:1,status:'aa',differType:'aa1'},{id:2,status:'bb',differType:'bb1'},{id:3,status:'cc'},{id:4,differType:'ff1'},{id:5,differType:'gg1'}]
 </script>
 
 <script type="text/javascript">

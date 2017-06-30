@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MobileDemo</title>
+</head>
+<body>
+
+<div id="root">apply的特殊使用</div>
+
+<script>
+/*
+ * fill的使用
+ * 快速mock数据的功能(性能测试	url:https://jsperf.com/constarray/4)
+ */
+ var arr = Array(6).fill(1).map((val,index)=>{return {val:index}});
+ console.log(`${JSON.stringify(arr)},arr`);
+ //[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr
+
+
+ var arr1 = Array(6).join(' ').split('').map((val,index)=>{return {val:index}});  //性能:第二种次之
+ console.log(`${JSON.stringify(arr1)},arr1`);
+ //[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4}],arr1
+
+
+ var arr2 = Array.from({length:6}).map((val,index)=>{return {val:index}});  //性能:最差(三种比较)
+ console.log(`${JSON.stringify(arr2)},arr2`);
+ //[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr2
+
+
+ var arr3 = [];                    //性能:性能最好
+ for(var i = 0; i <= 5; i++) {
+     arr3.push({val:i});
+ }
+ console.log(`${JSON.stringify(arr3)},arr3`);
+ //[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr3
+
+
+ var arr4 = Array.apply(null,{length:6}).map((val, i) => {return {val:i}});
+ console.log(`${JSON.stringify(arr4)},arr4`);
+ //[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr4
+
+
+ var arr5 =Array.from(new Array(6), (v,i) => { return {val: i}});
+ console.log(`${JSON.stringify(arr5)},arr5`);
+ ////[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr5
+
+
+function* angry(i) {       //(Generator)
+  yield {val: i};
+  if (i < 5) { yield* angry(i + 1); }
+};
+console.log(`${JSON.stringify(Array.from(angry(0)))},arr6`);
+//[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr6
+
+
+var arr7 = (function wallace (i) { return (i < 0) ? [] : wallace(i - 1).concat({val: i}); })(5);//递归
+console.log(`${JSON.stringify(arr7)},arr7`);
+//[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr7
+
+
+var arr8 = (function mistake (i, acc) { return (i < 6) ? mistake(i + 1, acc.concat({val: i})) : acc; })(0, []);////尾递归
+console.log(`${JSON.stringify(arr8)},arr8`);
+//[{"val":0},{"val":1},{"val":2},{"val":3},{"val":4},{"val":5}],arr8
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+/***************		http://www.jb51.net/article/31358.htm			***************/
+
+
+//使用Math.max()   取数组的最大值=>纯数组的情况下使用(包含字符串会出现NaN)
+Math.max.apply(null, [10, -1, 5]) //10
+Math.max.apply(null, ['10', '-1', '5','ccc']) //NaN
+
+
+
+Math.max(1,null) //相当于Math.max(1,0)  	1 
+Math.max(1,undefinded) //相当于Math.max(1,NaN)  	NaN
+
+
+
+
+
+
+
+/********** 填补稀疏数组 *******/
+
+
+//在JavaScript中,数组就是一个字符串到值的映射
+for (i in ["a", "b"]) { 
+	console.log(typeof i) //数组的索引实际上是个字符串 
+} 
+//"string" 
+//"string" 
+
+["a", "b"].forEach(function (x, i) { 
+	console.log(typeof i) //这里的i实际上不是索引,只是个数字类型的累加器 
+}) 
+//"number" 
+//"number" 
+
+
+
+/************你可以使用in运算符来检测数组中是否有缝隙. *****************/
+1 in ["a",,"b"] 
+//false
+
+1 in ["a", undefined, "b"] 
+//true  
+//这里之所以用1可以,是因为in运算符会把1转换成"1". 
+
+
+["a",,"b"][1] 
+//undefined 
+["a", undefined, "b"][1] 
+//undefined 
+//[1]也会被转换成["1"] 
+
+
+//apply配合Array(这里不需要加new)使用,可以将数组中的缝隙填补为undefined元素: 
+Array.apply(null, ["a",,"b"]) 
+//[ 'a', undefined, 'b' ]
+
+
+//但需要注意的是,如果Array方法接收到的参数是一个单独的数字,则会把这个参数当成数组长度,返回一个新数组: 
+Array.apply(null, [ 3 ]) 
+[undefined × 3]
+
+
+
+Underscore中的_.compact函数会移除数组中的所有假值,包括缝隙:
+_.compact(["a",,"b"])  //[ 'a', 'b' ] 
+
+_.compact(["a", undefined, "b"])  //[ 'a', 'b' ] 
+
+_.compact(["a", false, "b"])  //[ 'a', 'b' ] 
+
+
+
+
+/************扁平化数组 *********/
+Array.prototype.concat.apply([], [["a"], ["b"]]) 
+//["a", "b"]
+
+//所以你应该考虑一个替代方案.比如Underscore中的_.flatten函数就可以处理任意层数的嵌套数组：
+Array.prototype.concat.apply([], [[["a"]], ["b"]]) //（失效的，无法转化为一维数组）
+[ [ 'a' ], 'b' ] 
+//所以你应该考虑一个替代方案.比如Underscore中的_.flatten函数就可以处理任意层数的嵌套数组：
+</script>
+</body>
+</html>

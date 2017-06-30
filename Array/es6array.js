@@ -39,6 +39,11 @@ const [first,...two] = namesArr;
 console.log(two); 	//["Eva", "Phil"]
 
 
+const namesArr = {name:'Luke', age:'Eva', c:'Phil'};
+const {name,...two} = namesArr;
+console.log(name);   //Luke
+console.log(two);   //{age:'Eva', c:'Phil'};
+
 
 //从对象中提取数据            提取嵌套值
 const person = {
@@ -102,12 +107,42 @@ console.log(add(1, 23, 1, 2, 3, 4, 5)) // 40
 //避免使用 for(var i=0;i<arr.length;i++) 的方式，这样的数组长度每次都被计算，效率低于下面的方式
 for(var i=0;i<6; i++) {
   if (i == 2) {
-      // return;   // 函数执行被终止(return 出去)
+      // return;   // 函数执行被终止(return 出去)，需要在函数体内执行<<见下面的案列>>
       // break;    // 循环被终止(直接break出去了)               //0,1
       continue;   // 循环被跳过(跳过i=2的循环,进行其他的循环)  //0,1,3,4,5
   };
   console.log(i);
 }
+
+
+
+
+
+
+
+//return语句就是用于指定函数返回的值。return语句只能出现在函数体内，出现在代码中的其他任何地方都会造成语法错误！
+for(var i=1;i<=10;i++) { 
+    if(i==8) { 
+        return;  //报错、报错、报错、报错、报错、报错、
+    } 
+    console.log(i); 
+} 
+//执行结果Uncaught SyntaxError: Illegal return statement(…)     意思是非法捕获的查询返回语句。
+
+
+//return语句只能出现在函数体内(函数体内的for被return出去)
+function a(){
+  for(var i=0;i<10;i++){
+    if(i==4){
+      return;
+    }
+    console.log(i);
+  }
+};
+a();
+
+
+
 
 
 
@@ -251,16 +286,44 @@ arr.reduce((res,item)=>{
 //substr()   第一个参数代表开始位置,第二个参数代表截取的长度
 //var stmp = "rcinn.cn"; stmp.substr(1,3)  //cin
 
+//substr则<<仅仅>>是将第一个参数与字符串长度相加后的结果作为第一个参数；
+//var test = 'hello world'; alert(test.substr(-3));    //rld
+//var test = 'hello world'; alert(test.substr(3,-4));      //空字符串
+
+
+
 //substring()  第一个参数代表开始位置,第二个参数代表结束位置的下一个位置;(不包括结束位置)
 //若参数值为负数,则将该值转为0;两个参数中,取较小值作为开始位置,截取出来的字符串的长度为较大值与较小值之间的差.
 //var stmp = "rcinn.cn"; stmp.substring(1,3)  //ci  
 //var stmp = "rcinn.cn"; stmp.substring(1,-3)  //r 
 
 
-//slice() 也适用于数组  第一个参数代表开始位置,第二个参数代表结束位置的下一个位置,
+//slice() 也适用于数组和字符串  第一个参数代表开始位置,第二个参数代表结束位置的下一个位置,
 //截取出来的字符串的长度为第二个参数与第一个参数之间的差;若参数值为负数,则将该值加上字符串长度后转为正值;若第一个参数等于大于第二个参数,则返回空字符串.
 //var stmp = "rcinn.cn"; stmp.slice(1,3)  //ci  
 //var stmp = "rcinn.cn"; stmp.slice(1,-3)  //cinn
+
+
+
+//splice()   可用于删除及添加元素，会改变原数组
+// var arr=['a','b','c','d'];
+// var bb=arr.splice(2,1,'ff');
+// console.log(bb);//["c"]
+// console.log(arr);//["a", "b", "ff", "d"]
+
+
+// var arr=['a','b','c','d'];
+// var bb=arr.splice(2,0,'ff');
+// console.log(bb);//[]
+// console.log(arr);//["a", "b", "ff", "c", "d"]
+
+
+// var arr=['a','b','c','d'];
+// var bb=arr.splice(1,2,'ff');
+// console.log(bb);//["b" , "c"]
+// console.log(arr);//["a", "ff", "d"]
+
+
 
 
 

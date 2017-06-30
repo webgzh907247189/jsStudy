@@ -175,3 +175,32 @@ console.log(arr2);
 //[{id:1,differType:'dd',status:'aa'},{id:2,differType:'ee',status:'bb'},{id:4,differType:'ff'},{id:5,differType:'gg'},{id:3,status:'cc'}];
 
 
+
+
+
+
+
+
+/******************			存在疑问？？？？(不知道这样带来的后果，理赔中台的pende也是这样操作的)		*********************/
+var obj1 = {a:1,b:2};
+var { a } = obj1;
+if(a){
+	a=10;
+}
+console.log(obj1);//{a: 1, b: 2}
+
+
+var obj1 = {a:1,b:2};
+var { a } = obj1;
+if(a){
+	obj1.a=10;
+}
+console.log(obj1);//{a: 10, b: 2}
+
+
+//????????????????????
+        //深拷贝
+        // var obj={a:1,b:2,f:{e:'aa'}};
+        // var ob1 =  {...obj,c:3,d:4} 
+        // console.dir(ob1);
+        // return;
